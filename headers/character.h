@@ -309,7 +309,7 @@ void Character::gravity() {
   
     int terminalVelocity = 15;
    
-    m_accelFromGravity+=0.3;
+    m_accelFromGravity+=0.2;
     if (m_accelFromGravity>=1.0) {
         (*this).incy(1);
         m_accelFromGravity = 0.;
@@ -351,7 +351,7 @@ void Character::physics(Character other, sf::RenderWindow * window) {
     
     //  terminal forwards velocity
     // friction is handled at key input time
-    int terminalVel = 4;
+    int terminalVel = 8;
     if( (*this).xvel() >=terminalVel ) {
         (*this).xvel(terminalVel);
     }

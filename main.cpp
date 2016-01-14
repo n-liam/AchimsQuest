@@ -1,7 +1,5 @@
 #define SCREENSIZE 800
 
-// SOMETHING IS WRONG WITH THE GRID. I THINK I AM CHANGING STUFF ON A DIFFERENT GRID OR SOMETHING.
-
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -127,12 +125,12 @@ int main()
         }
         
          /* GHOST CHAR MOVEMENT */
-        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Joystick::isButtonPressed(0, 0) )
+        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Joystick::getAxisPosition(1, sf::Joystick::Y) >50. )
         {
             GhostChar::ghost.upOrDown(1);  
             GhostChar::ghost.incy(3); //fast fall
         }
-        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::isButtonPressed(0, 3) )
+        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(1, sf::Joystick::Y) >50. )
         {
             
             GhostChar::ghost.tryToJump(true);
@@ -194,31 +192,31 @@ int main()
         
         
         window.draw(MainChar::you);
-        MainChar::energyBar.activate();
+        
         
         
         
         view.setCenter(MainChar::you.getPosition() );
+ 
         
         Animation::viewControl(view, MainChar::you);
         window.setView(view);
         
+        MainChar::energyBar.updatePosition(view);
+        MainChar::energyBar.activate(); //also draws energybar
+        
+        
         window.display();
+        
+        
+		for (int i=0;i<8;i++) {
+			if ( sf::Joystick::getAxisPosition(i, sf::Joystick::Y) >50. ) {
+				std::cerr<<i<<"\n ";
+			}
+		}
 		
     }
-    
-    /*
-    BitMap bmp("levels/testLevel.bmp"); 
-    
-    std::vector<unsigned int> temp;
-    temp = bmp.getPixel(10,4);
-    for(int i =0;i<3;i++) {
-        std::cout<<temp[i]<<" ";
-        
-    }*/
-    
-    //TestLevel::test();
- 
+
     return 0;
 }
 

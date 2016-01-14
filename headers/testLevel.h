@@ -3,8 +3,9 @@
  
  namespace TestLevel {
      
+
      
-     Level testLevel("levels/testLevel.bmp");
+     Level testLevel("levels/testlevel.bmp");
      std::vector<Tile>* testLevelGrid = testLevel.getGrid();
      
      

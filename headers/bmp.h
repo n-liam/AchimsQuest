@@ -20,7 +20,7 @@
             unsigned char* m_pixelData;
             
         public:
-            BitMap(char* filename);
+            BitMap(const char * filename);
             ~BitMap();
         
             std::vector<unsigned int> getPixel(int i,int j);
@@ -31,13 +31,13 @@
             int height() {return m_height;}
     };
 
-    BitMap::BitMap( char* filename) {
+    BitMap::BitMap( const char * filename) {
         
         using namespace std;
         
         ifstream inf(filename);
         if(!inf) {
-            cerr<<"Unable to open file\n";
+            cerr<<"Unable to open file: "<<filename<<"\n";
         }
         
         

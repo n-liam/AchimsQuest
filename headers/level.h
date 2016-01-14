@@ -5,7 +5,7 @@
     public:
         
 
-        Level(char* fileName);
+        Level(const char* fileName);
         ~Level();
         
         std::vector<Tile>* getGrid() {return m_grid;}
@@ -25,7 +25,7 @@
      
  };
  
-Level::Level(char* fileName) {
+Level::Level(const char* fileName) {
     BitMap levelbmp(fileName);
     
     m_width = levelbmp.width();
