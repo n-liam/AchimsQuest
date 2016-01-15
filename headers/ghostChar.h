@@ -16,6 +16,10 @@ class Ghost: public Character {
         int distanceToMoveX_ghost(std::vector<Tile> grid);
         int distanceToMoveY_ghost(std::vector<Tile> grid);
         
+        bool isInView(sf::View& view);
+        
+        void checkIfInView(sf::View& view);
+        
     private:
         bool m_exists;
         
@@ -35,6 +39,7 @@ void Ghost::create(int pixelx, int pixely) {
 }
 
 void Ghost::destroy() {
+	m_exists = false;
     (*this).setPosition(32,32);
     (*this).xvel(0);
     (*this).yvel(0);
@@ -111,6 +116,28 @@ int Ghost::distanceToMoveY_ghost(std::vector<Tile> grid) {
     }
     
     return minAbsValue(distance,(*this).yvel());
+}
+
+bool Ghost::isInView(sf::View & view) {
+	if (  (*this).getPosition().x > view.getCenter().x + SCREENSIZE/2 ) {
+		return false;
+	}
+	if ( (*this).getPosition().x < view.getCenter().x - SCREENSIZE/2 ) {
+		return false;
+	}
+	if ( (*this).getPosition().y > view.getCenter().y + SCREENSIZE/2 ) {
+		return false;
+	}
+	if ( (*this).getPosition().y < view.getCenter().y - SCREENSIZE/2 ) {
+		return false;
+	}
+	return true;
+}
+
+void Ghost::checkIfInView(sf::View& view) {
+	if(! (*this).isInView(view) ) {
+		(*this).destroy();
+	}
 }
 
 #endif 

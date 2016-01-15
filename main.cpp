@@ -1,5 +1,8 @@
 #define SCREENSIZE 800
 
+//Ghost seems to be moving when the you're moving.
+
+
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -95,7 +98,7 @@ int main()
             MainChar::you.upOrDown(1);    
             MainChar::you.incy(3); //so you can fast fall;
         }
-        if( sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -50.)
+        if( sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -50. || sf::Joystick::getAxisPosition(0, sf::Joystick::Z) > 20.)
         {
             MainChar::you.tryToJump(true);
             MainChar::you.upOrDown(-1);
@@ -125,23 +128,23 @@ int main()
         }
         
          /* GHOST CHAR MOVEMENT */
-        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Joystick::getAxisPosition(1, sf::Joystick::Y) >50. )
+        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Joystick::getAxisPosition(0, sf::Joystick::V) >50. )
         {
             GhostChar::ghost.upOrDown(1);  
             GhostChar::ghost.incy(3); //fast fall
         }
-        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(1, sf::Joystick::Y) >50. )
+        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(0, sf::Joystick::V) < -50. || sf::Joystick::getAxisPosition(0, sf::Joystick::R) > 20.)
         {
             
             GhostChar::ghost.tryToJump(true);
             GhostChar::ghost.upOrDown(-1);
         }
-        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Joystick::isButtonPressed(0, 2))
+        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Joystick::getAxisPosition(0, sf::Joystick::U) <-50.)
         {
             GhostChar::ghost.incx(-1*GhostChar::ghost.accel());
             GhostChar::ghost.moving(-1);
         }
-        else if( sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Joystick::isButtonPressed(0, 1) )
+        else if( sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Joystick::getAxisPosition(0, sf::Joystick::U)>50. )
         {
             GhostChar::ghost.incx(1*GhostChar::ghost.accel());
             GhostChar::ghost.moving(1);
@@ -170,11 +173,30 @@ int main()
         MainChar::you.move(0, yDist);
 
        
+        
+        
         for(int i=0;i<TestLevel::levelSize;i++) {
             if( (*TestLevel::testLevelGrid)[i].shouldDraw() ){
                 window.draw( (*TestLevel::testLevelGrid)[i] );
             }
         }
+        
+        view.setCenter(MainChar::you.getPosition() );
+        Animation::viewControl(view, MainChar::you);
+        window.setView(view);
+        
+        MainChar::energyBar.updatePosition(view);
+        
+        
+        GhostChar::ghost.checkIfInView(view);
+        
+        
+        
+        
+        
+        
+        
+        
        
         if( GhostChar::ghost.exists()) {
            
@@ -193,27 +215,23 @@ int main()
         
         window.draw(MainChar::you);
         
-        
-        
-        
-        view.setCenter(MainChar::you.getPosition() );
- 
-        
-        Animation::viewControl(view, MainChar::you);
-        window.setView(view);
-        
-        MainChar::energyBar.updatePosition(view);
         MainChar::energyBar.activate(); //also draws energybar
+        
+        
+        
+        
+        
         
         
         window.display();
         
         
-		for (int i=0;i<8;i++) {
-			if ( sf::Joystick::getAxisPosition(i, sf::Joystick::Y) >50. ) {
-				std::cerr<<i<<"\n ";
-			}
-		}
+		
+		// axes for joystick
+		//R-- right trigger
+		//Z-- left trigger
+		//U-- x, right joystick
+		//V-- y, right joystick
 		
     }
 
