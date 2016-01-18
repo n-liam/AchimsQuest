@@ -5,7 +5,7 @@
      
 
      
-     Level testLevel("levels/testlevel.bmp");
+     Level testLevel("levels/testlevel2.bmp");
      std::vector<Tile>* testLevelGrid = testLevel.getGrid();
      
      

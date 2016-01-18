@@ -98,8 +98,16 @@ int main()
             MainChar::you.upOrDown(1);    
             MainChar::you.incy(3); //so you can fast fall;
         }
-        if( sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -50. || sf::Joystick::getAxisPosition(0, sf::Joystick::Z) > 20.)
+        if( sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -30. || sf::Joystick::getAxisPosition(0, sf::Joystick::Z) > 20.)
         {
+			// both are set for high jump right now
+			if( sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -70. || sf::Joystick::getAxisPosition(0, sf::Joystick::Z) > 60.) {
+				MainChar::you.setJumpHeight(Character::s_highJump);
+			}
+			else {
+				MainChar::you.setJumpHeight(Character::s_highJump);
+			}
+			
             MainChar::you.tryToJump(true);
             MainChar::you.upOrDown(-1);
         }
@@ -133,9 +141,15 @@ int main()
             GhostChar::ghost.upOrDown(1);  
             GhostChar::ghost.incy(3); //fast fall
         }
-        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(0, sf::Joystick::V) < -50. || sf::Joystick::getAxisPosition(0, sf::Joystick::R) > 20.)
+        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(0, sf::Joystick::V) < -30. || sf::Joystick::getAxisPosition(0, sf::Joystick::R) > 20.)
         {
-            
+			
+			if( sf::Joystick::getAxisPosition(0, sf::Joystick::V) < -70. || sf::Joystick::getAxisPosition(0, sf::Joystick::R) > 60.) {
+				GhostChar::ghost.setJumpHeight(Character::s_highJump);
+			}
+			else {
+				GhostChar::ghost.setJumpHeight(Character::s_highJump);
+			}
             GhostChar::ghost.tryToJump(true);
             GhostChar::ghost.upOrDown(-1);
         }
@@ -181,17 +195,6 @@ int main()
             }
         }
         
-        view.setCenter(MainChar::you.getPosition() );
-        Animation::viewControl(view, MainChar::you);
-        window.setView(view);
-        
-        MainChar::energyBar.updatePosition(view);
-        
-        
-        GhostChar::ghost.checkIfInView(view);
-        
-        
-        
         
         
         
@@ -210,6 +213,18 @@ int main()
         else {
             GhostChar::ghost.destroy();
         }
+        
+        
+        // this block has to come after ghost movement. {
+        Animation::viewControl(view, MainChar::you); // sets the view
+        window.setView(view);
+        
+        MainChar::energyBar.updatePosition(view);
+        
+        GhostChar::ghost.checkIfInView(view);
+        
+        // }
+        
         
         
         

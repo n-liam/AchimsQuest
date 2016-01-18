@@ -45,7 +45,7 @@ void Tether::activate() {
 void Tether::deactivate() {
     if(m_active) {
     m_active = false;
-    m_cooldown = 200;
+    m_cooldown = 60;
     }
 }
 

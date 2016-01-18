@@ -18,6 +18,13 @@ int g_dimy=50;
      return index/(g_dimx);
  }
  
+int min(int i, int j) {
+	if(i<j) {
+		return i;
+	}
+	return j;
+} 
+ 
 bool contains(std::vector<int> v, int n) {
     for(int i=0; i<v.size(); i++) {
         if(v[i]==n) {return true;}

@@ -13,9 +13,11 @@ class Character: public Entity {
         float m_frictionDecel;
         
         bool m_tryToJump;
+        int m_jumpHeight;
         
         Tether m_tether;
         bool m_isTethered;
+        
         
         void gravity();
         void jump();
@@ -24,6 +26,8 @@ class Character: public Entity {
     
     public:
     
+		static int s_highJump; //jump height
+		static int s_lowJump;
         bool m_touchingFloor;
         int m_facing;
         int m_upOrDown; //-1 is up, 1 is down
@@ -48,6 +52,8 @@ class Character: public Entity {
         
         void tryToJump(bool b) {m_tryToJump = b;}
         bool tryingToJump() {return m_tryToJump;}
+        void setJumpHeight(int i) { m_jumpHeight =i;}
+        
         void moving(int i) {m_moving = i;}
         
         void tether(Character other, sf::RenderWindow* window);
@@ -67,6 +73,9 @@ class Character: public Entity {
         Character();
     
 };
+
+int Character::s_highJump= -8;
+int Character::s_lowJump = -4;
 
 Character::Character()  {
     m_facing = 0;
@@ -307,9 +316,9 @@ int Character::distanceToMoveY_you(std::vector<Tile> grid) {
 
 void Character::gravity() {
   
-    int terminalVelocity = 15;
+    int terminalVelocity = 20;
    
-    m_accelFromGravity+=0.2;
+    m_accelFromGravity+=0.5;
     if (m_accelFromGravity>=1.0) {
         (*this).incy(1);
         m_accelFromGravity = 0.;
@@ -325,7 +334,8 @@ void Character::gravity() {
 }
 
 void Character::jump() {
-    (*this).incy(-4); //set initial jump velocity
+	
+    (*this).incy(m_jumpHeight); //set initial jump velocity
 }
 
 void Character::physics(Character other, sf::RenderWindow * window) {
@@ -351,7 +361,7 @@ void Character::physics(Character other, sf::RenderWindow * window) {
     
     //  terminal forwards velocity
     // friction is handled at key input time
-    int terminalVel = 8;
+    int terminalVel = 6;
     if( (*this).xvel() >=terminalVel ) {
         (*this).xvel(terminalVel);
     }

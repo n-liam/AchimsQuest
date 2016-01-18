@@ -43,6 +43,7 @@ void Ghost::destroy() {
     (*this).setPosition(32,32);
     (*this).xvel(0);
     (*this).yvel(0);
+    m_touchingFloor = false;
 }
 
 int Ghost::distanceToMoveX_ghost(std::vector<Tile> grid)  {
