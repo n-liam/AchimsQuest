@@ -5,9 +5,17 @@
      
 
      
-     Level testLevel("levels/testlevel2.bmp");
+     Level testLevel("levels/testlevel.bmp");
      std::vector<Tile>* testLevelGrid = testLevel.getGrid();
-     
+     sf::Music music;
+     bool musicPlaying;
+    void setup() {
+        musicPlaying = false;
+         if(!music.openFromFile("music/Achims_Quest_3_Theme.wav") ) {
+            std::cerr<<"Unable to open music\n";
+        }
+        music.setLoop(true);
+    }
      
      int levelWidth = testLevel.width();
      int levelHeight = testLevel.height();

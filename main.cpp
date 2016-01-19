@@ -46,13 +46,21 @@ int main()
 	
     MainChar::setup();
     GhostChar::setup();
-
+    
+    TestLevel::setup();
+    
     
     
 
 
     while (window.isOpen())
     {
+        
+        if(! TestLevel::musicPlaying ) {
+            TestLevel::musicPlaying = true;
+            TestLevel::music.play();
+        }
+        
         sf::Event event;
         while (window.pollEvent(event))
         {
