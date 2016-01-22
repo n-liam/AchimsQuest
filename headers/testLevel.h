@@ -11,7 +11,7 @@
      bool musicPlaying;
     void setup() {
         musicPlaying = false;
-         if(!music.openFromFile("music/Achims_Quest_3_Theme.wav") ) {
+         if(!music.openFromFile("music/Achims_Quest_3_Theme.flac") ) {
             std::cerr<<"Unable to open music\n";
         }
         music.setLoop(true);
